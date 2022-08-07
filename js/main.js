@@ -50,13 +50,13 @@
   });
   var overlaysData = {
     angels: {
-      title: "Fairphone Angels",
+      title: "Chapters",
       overlay: L.featureGroup.subGroup(cluster),
     },
-    events: {
-      title: "Meetups & Events",
-      overlay: L.featureGroup.subGroup(cluster),
-    },
+    //events: {
+    //  title: "Meetups & Events",
+    //  overlay: L.featureGroup.subGroup(cluster),
+    //},
   }
   var activeLayers = Object.keys(overlaysData).filter(function(key){
     return !EXCLUDED_LAYERS.includes(key);
@@ -251,6 +251,18 @@
     updateEmbedTextareaContentAndBrowserUrl();
   }
 
+  function getChapterLocation(chapter_name) {
+    var chapter_location = chapter_name.split('_')[1];
+    return chapter_location;
+  }
+
+  function getChapterCoordinates(chapter_location) {
+    return fetch('https://nominatim.openstreetmap.org/search?q=' + chapter_location + '&format=json')
+      .then(function(response) {
+        return response.json();
+  });
+  }
+
   /* Main */
   var defaultOverlays = getDefaultOverlays();
   var initialMapCenter = getInitialMapCenter();
@@ -270,23 +282,30 @@
   map.on('moveend', onMoveend);
 
   // Populate Fairphone Angels overlay
-  fetchJSON('data/angels.json')
+  fetchJSON('https://forum.tzm.community/g.json?filter=chapter')
     .then(function(json) {
       // Add a marker per Heaven
-      json.heavens.forEach(function(heaven) {
-        console.log(heaven.exists, heaven.active)
-        if(heaven.exists && heaven.active) {
-          heaven.coordinates.forEach(function(lat_lng) {
+      json.groups.forEach(function(chapter) {
+        if(chapter.user_count >= 1) {
+          var chapter_name = getChapterLocation(chapter.name);
+          getChapterCoordinates(chapter_name)
+            .then(function(json) {
+              var lat_lng = [json[0].lat, json[0].lon];
+              console.log(lat_lng)
+            });
+          //heaven.coordinates.forEach(function(lat_lng) {
+            //var lat_lng = [49.7172227, 6.739368]
             var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
             .bindPopup(
-              '<a href="mailto:' + heaven.location.toLowerCase() + '@' + COMMUNITY_DOMAIN + '">' + heaven.location + '<br>@' + COMMUNITY_DOMAIN + '<a>',
+              'hoi',
             );
             circle.addTo(overlaysData.angels.overlay);
-          })
+          //})
         }
       });
     });
 
+/*
     //Populate Events & Meetups overlay (events fetched from Fairphone Forum agenda)
     // https://forum.fairphone.com/agenda.json
     fetchJSON('data/events.json')
@@ -317,7 +336,6 @@
             marker.addTo(overlaysData.events.overlay);
           }
         })
-        /*
         json.list.forEach(function(area) {
           var nextEvent;
           if(area.events) {
@@ -357,6 +375,7 @@
               marker.addTo(overlaysData.events.overlay);
             };
           };
-        });*/
+        });
+*/
       });
 }(this));
