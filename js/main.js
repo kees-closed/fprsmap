@@ -23,8 +23,9 @@
   }
 
   /* Constants */
-  var COMMUNITY_DOMAIN = 'fairphone.community'
-  var TOPIC_URL = 'https://forum.fairphone.com/t/'
+  var COMMUNITY_DOMAIN = 'tzm.community'
+  var TOPIC_URL = 'https://forum.tzm.community/t'
+  var GROUP_URL = 'https://forum.tzm.community/g'
 
   var MARKERICONS = ["blue", "brown", "green", "grey", "orange", "pink", "red"]
     .reduce(function(markericons, color) {
@@ -251,16 +252,9 @@
     updateEmbedTextareaContentAndBrowserUrl();
   }
 
-  function getChapterLocation(chapter_name) {
-    var chapter_location = chapter_name.split('_')[1];
-    return chapter_location;
-  }
-
-  function getChapterCoordinates(chapter_location) {
-    return fetch('https://nominatim.openstreetmap.org/search?q=' + chapter_location + '&format=json')
-      .then(function(response) {
-        return response.json();
-  });
+  function getChapterEmailAddress(chapter_name) {
+    var emailAddress = chapter_name.replace(/_/g, "-");
+    return emailAddress + '@' + COMMUNITY_DOMAIN;
   }
 
   /* Main */
@@ -282,25 +276,19 @@
   map.on('moveend', onMoveend);
 
   // Populate Fairphone Angels overlay
-  fetchJSON('https://forum.tzm.community/g.json?filter=chapter')
+  fetchJSON(GROUP_URL + '.json?filter=chapter')
     .then(function(json) {
-      // Add a marker per Heaven
       json.groups.forEach(function(chapter) {
         if(chapter.user_count >= 1) {
-          var chapter_name = getChapterLocation(chapter.name);
-          getChapterCoordinates(chapter_name)
-            .then(function(json) {
-              var lat_lng = [json[0].lat, json[0].lon];
-              console.log(lat_lng)
-            });
-          //heaven.coordinates.forEach(function(lat_lng) {
-            //var lat_lng = [49.7172227, 6.739368]
-            var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
-            .bindPopup(
-              'hoi',
-            );
-            circle.addTo(overlaysData.angels.overlay);
-          //})
+          var emailAddress = getChapterEmailAddress(chapter.name.toLowerCase());
+          var lat_lng = [49.7172227, 6.739368];
+          var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
+          .bindPopup(
+            '<p>' + chapter.title + '</p>' +
+            '<br><div class="shopinfo">' + chapter.bio_excerpt + ' Or check our <a href="' + GROUP_URL + '/' + chapter.name + '">forum group</a> and ' +
+            '<a href="mailto:' + emailAddress + '">' + 'email' + '</a>' + ' the ' + chapter.user_count + ' chapter members' + '</div>',
+          );
+          circle.addTo(overlaysData.angels.overlay);
         }
       });
     });
@@ -376,6 +364,6 @@
             };
           };
         });
-*/
       });
+*/
 }(this));
