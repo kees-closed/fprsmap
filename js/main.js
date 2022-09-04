@@ -50,7 +50,7 @@
     spiderfyOnMaxZoom: false
   });
   var overlaysData = {
-    angels: {
+    chapters: {
       title: "Chapters",
       overlay: L.featureGroup.subGroup(cluster),
     },
@@ -321,14 +321,14 @@
           var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
             .bindPopup(map_text, { offset: new L.Point(0, -25)});
 
-          marker.addTo(overlaysData.angels.overlay);
+          marker.addTo(overlaysData.chapters.overlay);
 
           //var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
           //.bindPopup(
           //  map_text + map_text_email,
           //);
 
-          //circle.addTo(overlaysData.angels.overlay);
+          //circle.addTo(overlaysData.chapters.overlay);
         }
       });
 
