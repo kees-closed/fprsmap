@@ -24,7 +24,7 @@
 
   /* Constants */
   var COMMUNITY_DOMAIN = 'tzm.community'
-  var TOPIC_URL = 'https://forum.tzm.community/t'
+  var FORUM_URL = 'https://forum.tzm.community/'
   var GROUP_URL = 'https://forum.tzm.community/g'
 
   var MARKERICONS = ["blue", "brown", "green", "grey", "orange", "pink", "red"]
@@ -115,7 +115,7 @@
 
   function initMap(initialMapCenter, initialZoomLevel, defaultOverlays) {
     var baseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a> | &copy; <a href="https://github.com/WeAreFairphone/fprsmap" target="_blank">WeAreFairphone</a> (<a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPLv3</a>)',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a> | &copy; <a href="https://github.com/WeAreFairphone/fprsmap" target="_blank">WeAreFairphone</a> (<a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPLv3</a>) | <a href="https://github.com/kees-closed/fprsmap" target="_blank">TZM</a> (<a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPLv3</a>)',
       maxZoom: 18,
     });
 
@@ -135,7 +135,7 @@
 
     if (isEmbedded()) {
       map.scrollWheelZoom.disable();
-      map.attributionControl.setPrefix('<a href="https://map.fairphone.community/" target="_blank">See bigger map</a> | Leaflet');
+      map.attributionControl.setPrefix('<a href="https://map.tzm.community/" target="_blank">See bigger map</a> | Leaflet');
     } else {
       map.addControl(new L.Control.Fullscreen());
     }
@@ -153,11 +153,11 @@
 
   function updateEmbedTextareaContentAndBrowserUrl() {
     var queryParams = '?center=' + currentMapCenter[0] + ',' + currentMapCenter[1] + '&zoom=' + currentZoomLevel + '&show=' + activeLayers.toString();
-    embedTextareaContent = '<iframe src="https://map.fairphone.community/' + queryParams + '" width="100%" height="400" allowfullscreen="true" frameborder="0">\n' +
-        '<p><a href="https://map.fairphone.community/' + queryParams + '" target="_blank">See the Fairphone Community Map!</a></p>\n' +
-        '</iframe>';
+    embedTextareaContent = '<iframe src="https://map.tzm.community/' + queryParams + '" width="100%" height="400" allowfullscreen="true" frameborder="0">\n' +
+    '<p><a href="https://map.tzm.community/' + queryParams + '" target="_blank">See The Global Chapters Map!</a></p>\n' +
+    '</iframe>';
     try {
-      if (window.history.replaceState) {
+    if (window.history.replaceState) {
         window.history.replaceState({}, null, queryParams);
       }
       document.getElementById('embed-textarea').value = embedTextareaContent;
@@ -258,6 +258,21 @@
     return emailAddress + '@' + COMMUNITY_DOMAIN;
   }
 
+  function getNewBioExcerpt(bio_excerpt) {
+    const re = /(\B#\w\w+)/g;
+    var hashtag = re.exec(bio_excerpt);
+
+    // TODO: Why is the array filled with 2 matches while the string only has one hashtag?
+    if (hashtag.length > 1) {
+      hashtag = hashtag[0]
+    }
+
+    if (hashtag) {
+      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a class=\"hashtag\" href=\"https://forum.tzm.community/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
+      return new_bio_excerpt
+    }
+  }
+
   /* Main */
   var defaultOverlays = getDefaultOverlays();
   var initialMapCenter = getInitialMapCenter();
@@ -280,16 +295,41 @@
   fetchJSON(GROUP_URL + '.json?filter=chapter')
     .then(function(json) {
       json.groups.forEach(function(chapter) {
-        if(chapter.user_count >= 1) {
+        if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon && chapter.user_count >= 1) {
           var emailAddress = getChapterEmailAddress(chapter.name.toLowerCase());
-          var lat_lng = [49.7172227, 6.739368];
-          var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
-          .bindPopup(
-            '<p>' + chapter.title + '</p>' +
-            '<br><div class="shopinfo">' + chapter.bio_excerpt + ' Or check our <a href="' + GROUP_URL + '/' + chapter.name + '">forum group</a> and ' +
-            '<a href="mailto:' + emailAddress + '">' + 'email' + '</a>' + ' the ' + chapter.user_count + ' chapter members' + '</div>',
-          );
-          circle.addTo(overlaysData.angels.overlay);
+          var lat_lng = [
+            chapter.custom_fields.lat,
+            chapter.custom_fields.lon
+          ]
+          var new_bio_excerpt = getNewBioExcerpt(chapter.bio_excerpt);
+
+          if (!new_bio_excerpt) {
+            new_bio_excerpt = chapter.bio_excerpt
+          }
+
+          var introduction =
+            '<b>' + chapter.title + '</b>' +
+            '<br><div class="shopinfo">' + new_bio_excerpt + ' Or check our <a href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
+
+          if (chapter.custom_fields.contact_chapter_by_email) {
+            var contact_details = ' and <a href="mailto:' + emailAddress + '">' + 'email' + '</a>' + ' the ' + chapter.user_count + ' chapter members.' + '</div>';
+          } else {
+            var contact_details = ".";
+          }
+
+          var map_text = introduction.concat(contact_details);
+
+          var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
+            .bindPopup(map_text, { offset: new L.Point(0, -25)});
+
+          marker.addTo(overlaysData.angels.overlay);
+
+          //var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
+          //.bindPopup(
+          //  map_text + map_text_email,
+          //);
+
+          //circle.addTo(overlaysData.angels.overlay);
         }
       });
 
