@@ -291,7 +291,6 @@
   map.on('zoomend', onZoomend);
   map.on('moveend', onMoveend);
 
-  // Populate Fairphone Angels overlay
   fetchJSON(GROUP_URL + '.json?filter=chapter')
     .then(function(json) {
       json.groups.forEach(function(chapter) {
@@ -334,7 +333,7 @@
       });
 
 /*
-i  fetchJSON('data/events.json')
+  fetchJSON('data/events.json')
       .then(function (events) {
         // first sort events by date descending to ensure that two very close markers show the earlier
         // event on top when the icons overlap
