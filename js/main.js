@@ -258,7 +258,7 @@
     return emailAddress + '@' + COMMUNITY_DOMAIN;
   }
 
-  function getNewBioExcerpt(bio_excerpt) {
+  function updateTagLink(bio_excerpt) {
     const re = /(\B#\w\w+)/g;
     var hashtag = re.exec(bio_excerpt);
 
@@ -268,9 +268,14 @@
     }
 
     if (hashtag) {
-      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a class=\"hashtag\" href=\"https://forum.tzm.community/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
+      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a target=\"_blank\" class=\"hashtag\" href=\"https://forum.tzm.community/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
       return new_bio_excerpt
     }
+  }
+
+  function setTargetBlank(bio_excerpt) {
+    var new_bio_excerpt = bio_excerpt.replace(/<a href=/g, '<a target=\"_blank\" href=');
+    return new_bio_excerpt
   }
 
   /* Main */
@@ -300,15 +305,18 @@
             chapter.custom_fields.lat,
             chapter.custom_fields.lon
           ]
-          var new_bio_excerpt = getNewBioExcerpt(chapter.bio_excerpt);
-
+          // Remove relative forum link and include full link
+          var new_bio_excerpt = updateTagLink(chapter.bio_excerpt);
           if (!new_bio_excerpt) {
             new_bio_excerpt = chapter.bio_excerpt
           }
 
+          // Include `target is blank` for all URLs
+          new_bio_excerpt = setTargetBlank(new_bio_excerpt);
+
           var introduction =
             '<b>' + chapter.title + '</b>' +
-            '<br><div class="shopinfo">' + new_bio_excerpt + ' Or check our <a href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
+            '<br><div class="shopinfo">' + new_bio_excerpt + ' Or check our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
 
           if (chapter.custom_fields.contact_chapter_by_email) {
             var contact_details = ' and <a href="mailto:' + emailAddress + '">' + 'email' + '</a>' + ' the ' + chapter.user_count + ' chapter members.' + '</div>';
