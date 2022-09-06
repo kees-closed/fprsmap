@@ -279,10 +279,10 @@
   }
 
   function conditionalChapterMemberFormat(member_count) {
-    if member_count > 1 {
-      return 'member'
-    } else {
+    if (member_count > 1) {
       return 'members'
+    } else {
+      return 'member'
     }
   }
 
@@ -307,7 +307,7 @@
   fetchJSON(GROUP_URL + '.json?filter=chapter')
     .then(function(json) {
       json.groups.forEach(function(chapter) {
-        if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon {
+        if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon) {
           var contact_by_email = chapter.custom_fields.contact_by_email;
           var member_count = chapter.user_count;
           var member_format = conditionalChapterMemberFormat(member_count);
