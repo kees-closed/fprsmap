@@ -39,7 +39,7 @@ body {
 
 .leaflet-container {
         font-size: 20px;
-        font-family: 'Raleway', Helvetica;
+        font-family: 'Poppins', Helvetica;
         text-transform: uppercase;
 }
 
@@ -67,7 +67,7 @@ body {
 
 .shopinfo {
         font-size: 16px;
-        font-family: 'Poppins', Helvetica;
+        font-family: 'Raleway', Helvetica;
         text-transform: none;
         margin-bottom: 10px;
 }
