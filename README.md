@@ -3,10 +3,10 @@
 ## About
 >_`fprsmap` - abbreviation for "Fairphoners Map"_
 
-This map is based on the work from the [WeAreFairphone Community[fprsmap]. Without their amazing work and their willingness to make it open-source, we could not have made our TZM Chapters Map this easily. We will do our best to merge back any improvements we make to the WeAreFairphone Community.
+This map is based on the work from the [WeAreFairphone Community][fprsmap]. Without their amazing work and their willingness to make it open-source, we could not have made our TZM Chapters Map this easily. We will do our best to merge back any improvements we make to the WeAreFairphone Community.
 
 ## Dependencies and usage
-The installation and management of the map on our server is fully automated with Ansible. Due to the sensitive nature of our Ansible Playbooks, we maintain it in our private GitLab. To at least provide the basics; this map depends on a [Discourse forum[discourse] to retrieve the data. Furthermore, a [custom plugin[discourse-plugin] is required for the additional group fields to show up in the JSON output.
+The installation and management of the map on our server is fully automated with Ansible. Due to the sensitive nature of our Ansible Playbooks, we maintain it in our private GitLab. To at least provide the basics; this map depends on a [Discourse forum][discourse] to retrieve the data. Furthermore, a [custom plugin][discourse-plugin] is required for the additional group fields to show up in the JSON output.
 
 If any help or extra information is required, we are happy to help out. Please reach out to us at: https://forum.tzm.community
 
