@@ -254,8 +254,8 @@
   }
 
   function getChapterEmailAddress(chapter_name) {
-    var emailAddress = chapter_name.replace(/_/g, "-");
-    return emailAddress + '@' + COMMUNITY_DOMAIN;
+    var email_address = chapter_name.replace(/_/g, "-");
+    return email_address + '@' + COMMUNITY_DOMAIN;
   }
 
   function updateTagLink(bio_excerpt) {
@@ -276,6 +276,14 @@
   function setTargetBlank(bio_excerpt) {
     var new_bio_excerpt = bio_excerpt.replace(/<a href=/g, '<a target=\"_blank\" href=');
     return new_bio_excerpt
+  }
+
+  function conditionalChapterMemberFormat(member_count) {
+    if member_count > 1 {
+      return 'member'
+    } else {
+      return 'members'
+    }
   }
 
   /* Main */
@@ -299,65 +307,52 @@
   fetchJSON(GROUP_URL + '.json?filter=chapter')
     .then(function(json) {
       json.groups.forEach(function(chapter) {
-        if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon && chapter.user_count >= 1) {
-          var emailAddress = getChapterEmailAddress(chapter.name.toLowerCase());
+        if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon {
+          var contact_by_email = chapter.custom_fields.contact_by_email;
+          var member_count = chapter.user_count;
+          var member_format = conditionalChapterMemberFormat(member_count);
+          var email_address = getChapterEmailAddress(chapter.name.toLowerCase());
           var lat_lng = [
             chapter.custom_fields.lat,
             chapter.custom_fields.lon
           ]
+
           // Remove relative forum link and include full link
           var new_bio_excerpt = updateTagLink(chapter.bio_excerpt);
           if (!new_bio_excerpt) {
             new_bio_excerpt = chapter.bio_excerpt
           }
 
-          // Include `target is blank` for all URLs
+          // Include `target is blank` for all URLs so that CSP plays nice
           new_bio_excerpt = setTargetBlank(new_bio_excerpt);
 
-          var introduction =
-            '<b>' + chapter.title + '</b>' +
-            '<br><div class="shopinfo">' + new_bio_excerpt + ' Or check our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
-
-          if (chapter.custom_fields.contact_chapter_by_email) {
-            var contact_details = ' and <a href="mailto:' + emailAddress + '">' + 'email' + '</a>' + ' the ' + chapter.user_count + ' chapter members.' + '</div>';
+          // Dynamically generate marker label text based on context from group attributes such as members and bio
+          if (member_count !== 0) {
+            var introduction =
+              '<b>' + chapter.title + '</b>' +
+              '<br><div class="shopinfo">' + new_bio_excerpt + ' You can also contact ' + member_count + ' ' + member_format + ' via our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
           } else {
-            var contact_details = ".";
+            var introduction =
+                '<b>' + chapter.title + '</b>' +
+                '<br><div class="shopinfo">' + new_bio_excerpt + ' We currently have no members, please join our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
           }
 
-          var map_text = introduction.concat(contact_details);
+          if (contact_by_email && member_count >= 1) {
+            var extra_contact_details = ' or <a href="mailto:' + email_address + '">' + 'email us.</a></div>';
+          } else {
+            var extra_contact_details = ".</div>";
+          }
 
+          // Concatenate text
+          var map_text = introduction.concat(extra_contact_details);
+
+          // Drop marker at geo location with set text from forum group
           var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
             .bindPopup(map_text, { offset: new L.Point(0, -25)});
 
+          // Add marker to chapters overlay
           marker.addTo(overlaysData.chapters.overlay);
-
-          //var circle = L.circle(lat_lng, { radius: 30000, color: '#2ca7df', stroke:false, fillOpacity: 0.5 })
-          //.bindPopup(
-          //  map_text + map_text_email,
-          //);
-
-          //circle.addTo(overlaysData.chapters.overlay);
-        }
-      });
-
-/*
-  fetchJSON('data/events.json')
-      .then(function (events) {
-        // first sort events by date descending to ensure that two very close markers show the earlier
-        // event on top when the icons overlap
-        events.sort((a, b) => b.date < a.date ? -1 : b.date > a.date ? 1 : 0)
-        events.forEach(function (event) {
-          if (event.url && event.location && event.lat && event.lon && event.date >= new Date().toISOString().split('T')[0]) {
-            var popup = '<a href="' + event.url + '" target="_blank">' + event.location + '</a>' +
-                '<br><div class="shopinfo">Date: ' +
-                new Date(event.date).toLocaleDateString()
-            popup += '</div>';
-
-            var marker = L.marker([event.lat, event.lon], {icon: MARKERICONS.orange, riseOnHover: true})
-                .bindPopup(popup, {offset: new L.Point(0, -25)});
-            marker.addTo(overlaysData.events.overlay);
-          }
-        })
-*/
-      });
+      }
+    });
+  });
 }(this));
