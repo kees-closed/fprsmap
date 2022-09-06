@@ -25,7 +25,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="114.82143"
+     inkscape:cx="115.53571"
      inkscape:cy="204.28571"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -215,8 +215,8 @@
        d="m -219.43489,135.71285 8.85334,27.24426 28.64666,0.001 -23.175,16.83896 8.85127,27.24493 -23.17627,-16.83721 -23.17628,16.83721 8.85128,-27.24493 -23.175,-16.83896 28.64666,-0.001 z"
        inkscape:transform-center-y="-3.765224"
        inkscape:transform-center-x="1.2353035e-005" /><g
-       id="g905"
-       inkscape:export-filename="ZeitgeistMarker_green.png"
+       id="g682"
+       inkscape:export-filename="ZeitgeistMarker_blue.png"
        inkscape:export-xdpi="150.61577"
        inkscape:export-ydpi="150.61577"><path
          inkscape:export-ydpi="90"
@@ -225,7 +225,7 @@
          inkscape:connector-curvature="0"
          id="path4140-4"
          d="m 87.001585,417.2502 c 0,5.57367 -10.092018,21.74211 -10.092018,21.74211 0,0 -10.092019,-16.16844 -10.092017,-21.74211 0,-5.57366 4.51835,-10.09201 10.092017,-10.09201 5.573668,0 10.092018,4.51835 10.092018,10.09201 z"
-         style="fill:#30b67e;fill-opacity:0.94117647;stroke:#000000;stroke-width:0.212227;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /><g
+         style="fill:#2ca7df;fill-opacity:1;stroke:#000000;stroke-width:0.212227;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /><g
          style="clip-rule:evenodd;fill-rule:evenodd"
          id="g330"
          transform="matrix(0.13333333,0,0,0.13333333,68.95125,409.21009)"><g

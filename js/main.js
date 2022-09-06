@@ -326,7 +326,7 @@
 
           var map_text = introduction.concat(contact_details);
 
-          var marker = L.marker(lat_lng, { icon: MARKERICONS.green, riseOnHover: true })
+          var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
             .bindPopup(map_text, { offset: new L.Point(0, -25)});
 
           marker.addTo(overlaysData.chapters.overlay);
