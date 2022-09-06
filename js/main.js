@@ -30,7 +30,7 @@
   var MARKERICONS = ["blue", "brown", "green", "grey", "orange", "pink", "red"]
       .reduce(function (markericons, color) {
         markericons[color] = L.icon({
-          iconUrl: 'resources/FairphoneMarker_' + color + '.png',
+          iconUrl: 'resources/ZeitgeistMarker_' + color + '.png',
           iconAnchor: [15.9, 49],
         });
         return markericons;
@@ -326,7 +326,7 @@
 
           var map_text = introduction.concat(contact_details);
 
-          var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
+          var marker = L.marker(lat_lng, { icon: MARKERICONS.green, riseOnHover: true })
             .bindPopup(map_text, { offset: new L.Point(0, -25)});
 
           marker.addTo(overlaysData.chapters.overlay);
