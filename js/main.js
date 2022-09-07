@@ -27,15 +27,6 @@
   var FORUM_URL = 'https://forum.tzm.community/'
   var GROUP_URL = 'https://forum.tzm.community/g'
 
-  var MARKERICONS = ["blue", "brown", "green", "grey", "orange", "pink", "red"]
-      .reduce(function (markericons, color) {
-        markericons[color] = L.icon({
-          iconUrl: 'resources/ZeitgeistMarker_' + color + '.png',
-          iconAnchor: [15.9, 49],
-        });
-        return markericons;
-      }, {});
-
   var EXCLUDED_LAYERS = [];
 
   var DEFAULTMAPCENTER = [49.8158683, 6.1296751];
@@ -54,10 +45,6 @@
       title: "Chapters",
       overlay: L.featureGroup.subGroup(cluster),
     },
-    //events: {
-    //  title: "Meetups & Events",
-    //  overlay: L.featureGroup.subGroup(cluster),
-    //},
   }
   var activeLayers = Object.keys(overlaysData).filter(function (key) {
     return !EXCLUDED_LAYERS.includes(key);
@@ -346,8 +333,20 @@
           // Concatenate text
           var map_text = introduction.concat(extra_contact_details);
 
-          // Drop marker at geo location with set text from forum group
-          var marker = L.marker(lat_lng, { icon: MARKERICONS.blue, riseOnHover: true })
+          var iconOptions = {
+            iconUrl: 'resources/ZeitgeistMarker.svg',
+            iconSize: [32, 50]
+          }
+
+          var customIcon = L.icon(iconOptions);
+
+          var markerOptions = {
+            riseOnHover: true,
+            icon: customIcon
+          }
+
+          // Create marker and drop marker at geo location with set text from forum group
+          var marker = L.marker(lat_lng, markerOptions)
             .bindPopup(map_text, { offset: new L.Point(0, -25)});
 
           // Add marker to chapters overlay
