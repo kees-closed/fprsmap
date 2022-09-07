@@ -335,7 +335,8 @@
 
           var iconOptions = {
             iconUrl: 'resources/ZeitgeistMarker.svg',
-            iconSize: [32, 50]
+            iconSize: [32, 50],
+            iconAnchor: [15.9, 49]
           }
 
           var customIcon = L.icon(iconOptions);
