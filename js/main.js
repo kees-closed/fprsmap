@@ -321,7 +321,7 @@
           } else {
             var introduction =
                 '<b>' + chapter.title + '</b>' +
-                '<br><div class="shopinfo">' + new_bio_excerpt + ' We currently have no members, please join our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
+                '<br><div class="shopinfo">' + new_bio_excerpt + ' We currently have no members in our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
           }
 
           if (contact_by_email && member_count >= 1) {
