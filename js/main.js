@@ -325,7 +325,7 @@
           }
 
           if (contact_by_email && member_count >= 1) {
-            var extra_contact_details = ' or <a href="mailto:' + email_address + '">' + 'email us.</a></div>';
+            var extra_contact_details = ' which you can also reach via <a href="mailto:' + email_address + '">' + 'email</a>.</div>';
           } else {
             var extra_contact_details = ".</div>";
           }
