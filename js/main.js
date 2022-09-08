@@ -4,22 +4,22 @@
   /* Utils */
   function fetchJSON(url) {
     return fetch(url)
-        .then(function (response) {
-          return response.json();
-        });
+      .then(function (response) {
+    return response.json();
+      });
   }
 
   function getQueries() {
     if (!location.search) return {};
 
     return location.search
-        .replace('?', '')
-        .split('&')
-        .reduce(function (queries, current) {
-          var splitted = current.split('=');
-          queries[splitted[0]] = splitted[1];
-          return queries;
-        }, {});
+      .replace('?', '')
+      .split('&')
+      .reduce(function (queries, current) {
+    var splitted = current.split('=');
+    queries[splitted[0]] = splitted[1];
+    return queries;
+    }, {});
   }
 
   /* Constants */
@@ -29,7 +29,7 @@
 
   var EXCLUDED_LAYERS = [];
 
-  var DEFAULTMAPCENTER = [49.8158683, 6.1296751];
+  var DEFAULTMAPCENTER = [25, 0];
 
   var DEFAULTZOOMLEVEL = 2;
 
@@ -57,18 +57,18 @@
   /* Functions */
   function getAllOverlays(overlaysData) {
     return Object.keys(overlaysData)
-        .reduce(function (overlays, currentOverlay) {
-          overlays[overlaysData[currentOverlay].title] = overlaysData[currentOverlay].overlay;
-          return overlays;
-        }, {});
+      .reduce(function (overlays, currentOverlay) {
+        overlays[overlaysData[currentOverlay].title] = overlaysData[currentOverlay].overlay;
+    return overlays;
+    }, {});
   }
 
   function titleToKey(title) {
     return Object.keys(overlaysData)
-        .filter(function (key) {
-          return (overlaysData[key].title == title)
-        })
-        .toString();
+      .filter(function (key) {
+    return (overlaysData[key].title == title)
+    })
+      .toString();
   }
 
   function isEmbedded() {
@@ -92,12 +92,12 @@
 
   function getEffectiveOverlays(overlaysData, defaultOverlays) {
     return Object.keys(overlaysData)
-        .filter(function (currentOverlay) {
-          if ((!defaultOverlays || !isValidOverlayQueries(overlaysData, defaultOverlays)) && EXCLUDED_LAYERS.includes(currentOverlay)) return false;
-          if (!defaultOverlays || !isValidOverlayQueries(overlaysData, defaultOverlays)) return true;
+      .filter(function (currentOverlay) {
+        if ((!defaultOverlays || !isValidOverlayQueries(overlaysData, defaultOverlays)) && EXCLUDED_LAYERS.includes(currentOverlay)) return false;
+        if (!defaultOverlays || !isValidOverlayQueries(overlaysData, defaultOverlays)) return true;
 
-          return defaultOverlays.indexOf(currentOverlay) !== -1;
-        });
+      return defaultOverlays.indexOf(currentOverlay) !== -1;
+    });
   }
 
   function initMap(initialMapCenter, initialZoomLevel, defaultOverlays) {
@@ -114,6 +114,7 @@
       minZoom: 2,
       layers: getInitialLayers(effectiveOverlays, [baseLayer, cluster]),
       worldCopyJump: true,
+      fullscreenControl: true,
     });
 
     activeLayers = effectiveOverlays;
@@ -122,9 +123,6 @@
 
     if (isEmbedded()) {
       map.scrollWheelZoom.disable();
-      map.attributionControl.setPrefix('<a href="https://map.tzm.community/" target="_blank">See bigger map</a> | Leaflet');
-    } else {
-      map.addControl(new L.Control.Fullscreen());
     }
   }
 
