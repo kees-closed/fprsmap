@@ -280,7 +280,7 @@
   map.on('zoomend', onZoomend);
   map.on('moveend', onMoveend);
 
-  map.attributionControl.setPrefix('<a href="https://forum.tzm.community/powered-by" title="This map was possible by the open-source community" target="_blank">Powered by...</a>');
+  map.attributionControl.setPrefix('<a href="https://forum.tzm.community/powered-by" title="This map was possible by the open-source community" target="_blank">Powered by</a>');
 
   fetchJSON('current_chapters.json')
     .then(function(json) {
