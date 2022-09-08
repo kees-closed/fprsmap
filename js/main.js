@@ -156,11 +156,6 @@
       collapsed: false,
     });
     layerControls.addTo(map);
-
-    // Add embed Control
-    L.easyButton('<img src="resources/embed-icon.png">', function (btn, map) {
-      addPopupWithEmbedCode();
-    }, 'Embed the map!').addTo(map);
   }
 
   function getInitialMapCenter() {
