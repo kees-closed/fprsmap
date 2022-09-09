@@ -1,6 +1,11 @@
 (function (global) {
   'use strict';
 
+  /* Require modules */
+  var L = require('leaflet');
+  var MarkerClusterGroup = require('leaflet.markercluster');
+  var subGroup = require('leaflet.featuregroup.subgroup');
+
   /* Utils */
   function fetchJSON(url) {
     return fetch(url)
@@ -25,7 +30,7 @@
   /* Constants */
   var COMMUNITY_DOMAIN = 'tzm.community'
   var FORUM_URL = 'https://forum.tzm.community/'
-  var GROUP_URL = 'https://forum.tzm.community/g'
+  var GROUP_URL = 'https://forum.tzm.community/groups'
 
   var EXCLUDED_LAYERS = [];
 
@@ -128,11 +133,11 @@
   function addPopupWithEmbedCode() {
     updateEmbedTextareaContentAndBrowserUrl();
     var embedPopupContent = 'Embed code:<br>' +
-        '<textarea autofocus cols="35" id="embed-textarea" readonly rows="3" wrap="off">' + embedTextareaContent + '</textarea>';
+      '<textarea autofocus cols="35" id="embed-textarea" readonly rows="3" wrap="off">' + embedTextareaContent + '</textarea>';
     L.popup({className: 'embed-popup'})
-        .setLatLng(map.getCenter())
-        .setContent(embedPopupContent)
-        .openOn(map);
+      .setLatLng(map.getCenter())
+      .setContent(embedPopupContent)
+      .openOn(map);
   }
 
   function updateEmbedTextareaContentAndBrowserUrl() {
@@ -311,8 +316,8 @@
               '<br><div class="shopinfo">' + new_bio_excerpt + ' You can also contact ' + member_count + ' ' + member_format + ' via our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
           } else {
             var introduction =
-                '<b>' + chapter.title + '</b>' +
-                '<br><div class="shopinfo">' + new_bio_excerpt + ' We currently have no members in our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
+              '<b>' + chapter.title + '</b>' +
+              '<br><div class="shopinfo">' + new_bio_excerpt + ' We currently have no members in our <a target="_blank" href="' + GROUP_URL + '/' + chapter.name + '">forum group</a>';
           }
 
           if (contact_by_email && member_count >= 1) {
