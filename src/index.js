@@ -1,5 +1,16 @@
+//import * as L from 'leaflet';
+//import MarkerClusterGroup from 'leaflet.markercluster';
+//import subGroup from 'leaflet.featuregroup.subgroup';
+//import Fullscreen from 'leaflet-fullscreen';
+//import './style.css';
+
 (function (global) {
   'use strict';
+
+  var L = require('leaflet');
+  var MarkerClusterGroup = require('leaflet.markercluster');
+  var subGroup = require('leaflet.featuregroup.subgroup');
+  var Fullscreen = require('leaflet-fullscreen');
 
   /* Utils */
   function fetchJSON(url) {

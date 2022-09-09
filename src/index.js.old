@@ -1,0 +1,46 @@
+//import './style.css';
+////import Icon from './tzm.png';
+////import json from './data.json5';
+////import printMe from './print.js';
+//
+//import map as L from 'leaflet';
+//
+////console.log(json.title); // output `JSON5 Example`
+////console.log(json.owner.name); // output `Tom Preston-Werner`
+//
+//function component() {
+//  const element = document.createElement('div');
+//  //const btn = document.createElement('button');
+//
+//  //element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+//  //btn.innerHTML = 'Click me and check the console!';
+//  //btn.onclick = printMe;
+//  //element.appendChild(btn);
+//  //element.classList.add('hello');
+//
+//  //// Add th eimage to our existing div
+//  //const myIcon = new Image();
+//  //myIcon.src = Icon;
+//
+//  //element.appendChild(myIcon);
+//
+//  //return element;
+//}
+//
+//document.body.appendChild(component());
+
+
+import {
+  map as initMap,
+  tileLayer,
+} from 'leaflet'
+
+const map = initMap('map').setView([46.7785, 6.6412], 13)
+
+const osmCH = tileLayer('https://tile.osm.ch/switzerland/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  bounds: [[45, 5], [48, 11]]
+})
+
+osmCH.addTo(map)
