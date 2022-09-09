@@ -5,6 +5,7 @@
   var L = require('leaflet');
   var MarkerClusterGroup = require('leaflet.markercluster');
   var subGroup = require('leaflet.featuregroup.subgroup');
+  var Fullscreen = require('leaflet-fullscreen');
 
   /* Utils */
   function fetchJSON(url) {
@@ -118,7 +119,6 @@
       minZoom: 2,
       layers: getInitialLayers(effectiveOverlays, [baseLayer, cluster]),
       worldCopyJump: true,
-      fullscreenControl: true,
     });
 
     activeLayers = effectiveOverlays;
@@ -286,6 +286,7 @@
   map.on('moveend', onMoveend);
 
   map.attributionControl.setPrefix('<a href="https://forum.tzm.community/powered-by" title="This map was made possible by the open-source community" target="_blank">Powered by</a>');
+  map.addControl(new L.Control.Fullscreen());
 
   fetchJSON('current_chapters.json')
     .then(function(json) {
