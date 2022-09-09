@@ -10,7 +10,7 @@
   /* Utils */
   function fetchJSON(url) {
     return fetch(url)
-      .then(function (response) {
+      .then(function(response) {
     return response.json();
       });
   }
@@ -331,7 +331,7 @@
           var map_text = introduction.concat(extra_contact_details);
 
           var iconOptions = {
-            iconUrl: 'resources/ZeitgeistMarker.svg',
+            iconUrl: 'assets/ZeitgeistMarker.svg',
             iconSize: [32, 50],
             iconAnchor: [15.9, 49]
           }
