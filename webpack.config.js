@@ -37,6 +37,10 @@ module.exports = {
         type: 'asset/resource',
       },
       {
+        test: /\.html$/i,
+        type: 'asset/source'
+      },
+      {
         test: /\.json5$/i,
         type: 'json',
         parser: {
