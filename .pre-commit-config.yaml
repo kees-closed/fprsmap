@@ -26,3 +26,4 @@ repos:
         entry: yamllint
         language: system
         types: [file, yaml]
+        exclude: ^node_modules/
