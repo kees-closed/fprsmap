@@ -285,7 +285,7 @@
 
   fetchJSON('current_chapters.json')
     .then(function(json) {
-      json.groups.forEach(function(chapter) {
+      json.forEach(function(chapter) {
         if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon) {
           var contact_by_email = chapter.custom_fields.contact_by_email;
           var member_count = chapter.user_count;
