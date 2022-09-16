@@ -283,7 +283,7 @@
 
   map.attributionControl.setPrefix('<a href="https://forum.tzm.community/powered-by" title="This map was made possible by the open-source community" target="_blank">Powered by</a>');
 
-  fetchJSON('current_chapters.json')
+  fetchJSON('./current_chapters.json')
     .then(function(json) {
       json.forEach(function(chapter) {
         if (chapter.custom_fields.show_map && chapter.custom_fields.lat && chapter.custom_fields.lon) {
