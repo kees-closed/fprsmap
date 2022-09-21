@@ -65,6 +65,12 @@ body {
         height: 0;
 }
 
+.leaflet-control-attribution a:focus,
+.leaflet-control-attribution a:hover {
+        text-decoration: none;
+}
+
+
 .shopinfo {
         font-size: 16px;
         font-family: 'Raleway', Helvetica;
