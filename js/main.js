@@ -23,9 +23,9 @@
   }
 
   /* Constants */
-  var COMMUNITY_DOMAIN = 'tzm.community'
-  var FORUM_URL = 'https://forum.tzm.community/'
-  var GROUP_URL = 'https://forum.tzm.community/g'
+  var COMMUNITY_DOMAIN = 'tzm.one'
+  var FORUM_URL = 'https://tzm.one/'
+  var GROUP_URL = 'https://tzm.one/g'
 
   var EXCLUDED_LAYERS = [];
 
@@ -245,7 +245,7 @@
     }
 
     if (hashtag) {
-      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a target=\"_blank\" class=\"hashtag\" href=\"https://forum.tzm.community/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
+      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a target=\"_blank\" class=\"hashtag\" href=\"https://tzm.one/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
       return new_bio_excerpt
     }
   }
@@ -281,7 +281,7 @@
   map.on('zoomend', onZoomend);
   map.on('moveend', onMoveend);
 
-  map.attributionControl.setPrefix('<a href="https://forum.tzm.community/powered-by" title="This map was made possible by the open-source community" target="_blank">Powered by</a>');
+  map.attributionControl.setPrefix('<a href="https://tzm.one/powered-by" title="This map was made possible by the open-source community" target="_blank">Powered by</a>');
 
   fetchJSON('current_chapters.json')
     .then(function(json) {
