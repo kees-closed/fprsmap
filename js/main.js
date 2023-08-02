@@ -236,17 +236,14 @@
   }
 
   function updateTagLink(bio_excerpt) {
-    const re = /(\B#\w\w+)/g;
-    var hashtag = re.exec(bio_excerpt);
+    const re = /\/tag\/(?<html_tag>\w+)|#(?<tag>\w+)/;
+    const match = bio_excerpt.match(re);
 
-    // TODO: Why is the array filled with 2 matches while the string only has one hashtag?
-    if (hashtag.length > 1) {
-      hashtag = hashtag[0]
-    }
-
-    if (hashtag) {
-      var new_bio_excerpt = bio_excerpt.replace(/<a class=\"hashtag\" href=\".*<\/a>/, '<a target=\"_blank\" class=\"hashtag\" href=\"https://tzm.one/tag/' + hashtag.slice(1) + '\">' + hashtag + '<\/a>');
-      return new_bio_excerpt
+    for (const name in match.groups) {
+      if(match.groups[name] && typeof match.groups[name] !== "undefined") {
+        var new_bio_excerpt = bio_excerpt.replace(/<a class="(hashtag-cooked|hashtag)" href=".*<\/a>/, '<a target="_blank" class="hashtag" href="https://tzm.one/tag/' + match.groups[name] + '">' + "#" + match.groups[name] + '</a>');
+        return new_bio_excerpt
+      }
     }
   }
 
