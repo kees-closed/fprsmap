@@ -1,5 +1,25 @@
 {
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development"
+  },
   "devDependencies": {
-    "css-minify": "^2.0.0"
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "css-minify": "^2.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-gesture-handling": "^1.2.2",
+    "leaflet.featuregroup.subgroup": "^1.0.2",
+    "leaflet.fullscreen": "^4.0.0",
+    "leaflet.markercluster": "^1.5.3"
   }
 }
