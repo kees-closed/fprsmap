@@ -282,7 +282,7 @@
   map.on('zoomend', onZoomend);
   map.on('moveend', onMoveend);
 
-  map.attributionControl.setPrefix('<a href="https://tzm.one/powered-by" title="This map was made possible by the open-source community" target="_blank">Powered by</a>');
+  map.attributionControl.setPrefix('Powered by <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> and <a href="https://tzm.one/powered-by" title="This map was made possible by the open-source community" target="_blank">more</a>');
 
   fetchJSON('current_chapters.json')
     .then(function(json) {
